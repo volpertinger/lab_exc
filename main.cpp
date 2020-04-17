@@ -82,7 +82,7 @@ int main() {
   try {
     S1 &f = dynamic_cast<S1 &>(b);
   } catch (const std::bad_cast &e) {
-    std::cout << e.what() << '\n';
+    std::cerr << e.what() << '\n';
   }
 
   // gen exc for bad_alloc
@@ -92,7 +92,7 @@ int main() {
       new int[100000000ul];
     }
   } catch (const std::bad_alloc &e) {
-    std::cout << "Allocation failed: " << e.what() << '\n';
+    std::cerr << "Allocation failed: " << e.what() << '\n';
   }
 
   // gen exc for my exc class
@@ -105,6 +105,12 @@ int main() {
   }
 
   // lick of memory
+
+  mem_lick lick;
+
+  // no lick of memory
+
+  mem_lick_fix no_lick;
 
   return 0;
 }
