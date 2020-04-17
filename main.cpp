@@ -5,23 +5,32 @@
 #include <string>
 #include <vector>
 
-class data {
-  double x, y;
+class exception {
   std::string message;
 
-  data(double a, double b, std::string m) : x(a), y(b), message(m) {}
+public:
+  exception(std::string error) : message(error) {}
+  std::string get_error() { return message; }
+};
 
-  double dividing(double x, double y) {
-    if (y == 0)
-      throw data(x, y, "dividing on zero");
-    if (x < 0 || y < 0)
-      throw data(x, y, "negative result");
-    return x/y;
+class ages {
+  int list[5];
+
+public:
+  ages() {}
+  int get_len() { return 5; };
+  void set_age(int age, int index) {
+    if (age < 0)
+      throw exception("invalid age");
+    if (index > 4)
+      throw exception("invalid index");
+    list[index] = age;
   }
 };
 
 int main() {
-  // gen div for std::out_of_range
+  // gen exc for std::out_of_range
+
   std::vector<int> vec(2);
   try {
     vec.at(3) = 100;
@@ -29,7 +38,7 @@ int main() {
     std::cerr << "Out of Range " << oor.what() << '\n';
   }
 
-  // gen div for length_error
+  // gen exc for length_error
 
   try {
     std::vector<int> vec;
@@ -38,7 +47,7 @@ int main() {
     std::cerr << "Length error: " << le.what() << '\n';
   }
 
-  // gen div for invalid_argument
+  // gen exc for invalid_argument
 
   try {
     std::bitset<5> bit(std::string("01234"));
@@ -46,7 +55,7 @@ int main() {
     std::cerr << "Invalid argument: " << ia.what() << '\n';
   }
 
-  // gen div for bad_cast
+  // gen exc for bad_cast
 
   struct S1 {
     virtual ~S1() {}
@@ -61,7 +70,7 @@ int main() {
     std::cout << e.what() << '\n';
   }
 
-  // gen div for bad_alloc
+  // gen exc for bad_alloc
 
   try {
     while (true) {
@@ -69,6 +78,15 @@ int main() {
     }
   } catch (const std::bad_alloc &e) {
     std::cout << "Allocation failed: " << e.what() << '\n';
+  }
+
+  // gen exc for my exc class
+
+  ages list;
+  try {
+    list.set_age(5, 6);
+  } catch (exception &exc) {
+    std::cerr << "error: " << exc.get_error() << "\n";
   }
 
   return 0;
