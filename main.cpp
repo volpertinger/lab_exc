@@ -5,6 +5,21 @@
 #include <string>
 #include <vector>
 
+class mem_lick {
+  int *arr;
+
+public:
+  mem_lick() { arr = new int[10]; }
+};
+
+class mem_lick_fix {
+  int *arr;
+
+public:
+  ~mem_lick_fix() { delete arr; }
+  mem_lick_fix() { arr = new int[10]; }
+};
+
 class exception {
   std::string message;
 
@@ -88,6 +103,8 @@ int main() {
   } catch (exception &exc) {
     std::cerr << "error: " << exc.get_error() << "\n";
   }
+
+  // lick of memory
 
   return 0;
 }
